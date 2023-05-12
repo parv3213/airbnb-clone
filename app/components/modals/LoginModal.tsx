@@ -44,7 +44,7 @@ const LoginModal = (props: Props) => {
       if (callback?.ok) {
         toast.success('Logged in')
         router.refresh()
-        loginModal.onClose
+        loginModal.onClose()
       }
 
       if (callback?.error) {
