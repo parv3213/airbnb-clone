@@ -1,7 +1,6 @@
 'use client'
 
 import { usePathname, useSearchParams } from 'next/navigation'
-import queryString from 'query-string'
 import { BsSnow } from 'react-icons/bs'
 import { FaSkiing } from 'react-icons/fa'
 import {
