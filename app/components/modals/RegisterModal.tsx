@@ -1,9 +1,10 @@
 'use client'
 
+import { useLoginModal } from '@/app/hooks/useLoginModal'
 import { useRegisterModal } from '@/app/hooks/useRegisterModal'
 import axios from 'axios'
 import { signIn } from 'next-auth/react'
-import { useState } from 'react'
+import { useCallback, useState } from 'react'
 import { FieldValues, SubmitHandler, useForm } from 'react-hook-form'
 import { toast } from 'react-hot-toast'
 import { AiFillGithub } from 'react-icons/ai'
@@ -16,6 +17,8 @@ import Modal from './Modal'
 interface Props {}
 const RegisterModal = (props: Props) => {
   const registerModal = useRegisterModal()
+  const loginModal = useLoginModal()
+
   const [isLoading, setIsLoading] = useState(false)
 
   const {
@@ -39,6 +42,11 @@ const RegisterModal = (props: Props) => {
       .catch((e) => toast.error('Something went wrong'))
       .finally(() => setIsLoading(false))
   }
+
+  const toggle = useCallback(() => {
+    registerModal.onClose()
+    loginModal.onOpen()
+  }, [loginModal, registerModal])
 
   const bodyContent = (
     <div className="flex flex-col gap-4">
@@ -65,7 +73,7 @@ const RegisterModal = (props: Props) => {
       <div className="font-lite mt-4 text-neutral-500">
         <div className="flex flex-row items-center justify-center gap-2">
           <div>Already have an account</div>
-          <div onClick={registerModal.onClose} className="cursor-pointer  text-neutral-800 hover:underline">
+          <div onClick={toggle} className="cursor-pointer  text-neutral-800 hover:underline">
             Login
           </div>
         </div>
