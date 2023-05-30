@@ -1,10 +1,11 @@
 'use client'
 
 import { useRentModal } from '@/app/hooks/useRentModal'
+import { latLng } from 'leaflet'
+import dynamic from 'next/dynamic'
 import { useMemo, useState } from 'react'
 import { FieldValues, useForm } from 'react-hook-form'
 import Heading from '../Heading'
-import Map from '../Map'
 import CategoryInput from '../inputs/CategoryInput'
 import CountrySelect from '../inputs/CountrySelect'
 import { categories } from '../navbar/Categories'
@@ -49,6 +50,8 @@ const RentModal = (props: Props) => {
 
   const category = watch('category')
   const location = watch('location')
+
+  const Map = useMemo(() => dynamic(() => import('../Map'), { ssr: false }), [location])
 
   const setCustomValue = (id: string, value: any) => {
     setValue(id, value, {
@@ -104,7 +107,7 @@ const RentModal = (props: Props) => {
       <div className="flex flex-col gap-8">
         <Heading title="Where is your place located?" subtitle="Help guests find you!" />
         <CountrySelect value={location} onChange={(value) => setCustomValue('location', value)} />
-        <Map />
+        <Map center={location?.latlng} />
       </div>
     )
   }
